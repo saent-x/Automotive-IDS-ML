@@ -1,0 +1,3 @@
+## IMPLEMENTATION OF A MULTI-TIERED HYBRID IN-VEHICLE IDS
+
+In the evolving landscape of automotive technology, securing in-vehicle networks is crucial. The proposition involves a Machine Learning-based Intrusion Detection System (IDS) with a multi-tier hybrid architecture that integrates both signature-based and anomaly-based detection. This approach combines the accuracy of signature-based (Supervised learning) methods for known threats with the adaptability of anomaly-based (Unsupervised learning) methods for new threats, offering a robust and comprehensive security solution for vehicular networks.
