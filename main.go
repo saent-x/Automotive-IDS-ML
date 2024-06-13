@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"github.com/saent-x/go-ml-pl/pkg/core"
+	"log"
 )
 
 func main() {
@@ -11,10 +12,12 @@ func main() {
 
 	// import dataset and clean the data
 	dataset := "./datasets/clean-data/updated_dataset.csv"
-	cleanDatasetInfo := core.ReadCSV(ctx, dataset)
+	cleanDatasetInfo, err := core.ReadCSV(ctx, dataset)
+	if err != nil {
+		log.Println(err.Error())
+	}
+	// fmt.Println(cleanDatasetInfo.FileInfo)
 
+	// split data into feature and target subsets
 	cleanDatasetInfo.SplitFeature_Target()
-
-	// split data into train and test dataset
-
 }

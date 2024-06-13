@@ -2,3 +2,5 @@ datasets
 .vscode
 .idea
 .git
+.jupyter
+.ipynb_checkpoints
