@@ -1,18 +1,33 @@
 import numpy
 import pandas as pd
 import matplotlib.pyplot as plt
+from py_pkg.core.core import read_dataset_and_split, get_test_dataset
+from py_pkg.algos.algo import Algo
+from py_pkg.entities.entities import TestDataType, AttackType, AlgoToPredict
 
-## import datasets
+# import datasets
 dataset_dir = './datasets/clean-data/updated_dataset.csv'
 
-## separate features from target variables
 
-## split to train and test datasets
+def main():
+    split_dataset = read_dataset_and_split(dataset_dir)
 
-## implement DF, RF, EF, XGBoost model algorithms
+    # initialize algo
+    algo = Algo(split_dataset)
 
-## merge all models into one
+    # implement individual algos
+    algo.impl_random_forests()
+    algo.impl_xgboost()
+    algo.impl_kmeans()
 
-## implement evaluation and verification
+    # test individual algos
+    test_data_kv_ka = get_test_dataset(test_type=TestDataType.kv_ka, attack_type=AttackType.dos)
+    test_result_1 = algo.predict(test_data_kv_ka, AlgoToPredict.random_forest)
+    # show test results and analysis on web server
 
-## test models
+    # create ensemble model
+
+    # test ensemble model
+
+
+main()
