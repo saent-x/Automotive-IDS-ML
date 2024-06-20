@@ -4,3 +4,4 @@ datasets
 .git
 .jupyter
 .ipynb_checkpoints
+__pycache__

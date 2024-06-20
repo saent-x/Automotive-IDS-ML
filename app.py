@@ -15,7 +15,7 @@ def main():
     # initialize algo
     algo = Algo(split_dataset)
 
-    # implement individual algos
+    # implement individual al  okayokay sure11gos
     algo.impl_random_forests()
     algo.impl_xgboost()
     algo.impl_kmeans()
