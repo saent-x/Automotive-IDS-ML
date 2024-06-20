@@ -15,10 +15,10 @@ from py_pkg.entities.entities import SplitDataset, AlgoToPredict
 
 
 class Algo:
-    __rf = None
-    __xgb = None
-    __kmeans = None
-    __ensemble_model = None
+    __rf: RandomForestClassifier
+    __xgb: GradientBoostingClassifier
+    __kmeans: KMeans
+    __ensemble_model: VotingClassifier
 
     def __init__(self, split_dataset: SplitDataset):
         self.split_dataset = split_dataset
@@ -28,39 +28,59 @@ class Algo:
         self.__rf = RandomForestClassifier()
         self.__rf.fit(self.split_dataset.x_features, self.split_dataset.y_features)
 
+        print("==> ml-algo [Random Forests Implemented]")
+
+
     def impl_xgboost(self):
         # Initiate and train model
         self.__xgb = GradientBoostingClassifier()
         self.__xgb.fit(self.split_dataset.x_features, self.split_dataset.y_features)
+
+        print("==> ml-algo [Gradient Boosting Implemented]")
 
     def impl_kmeans(self):
         # create scaled DataFrame where each variable has mean of 0 and standard dev of 1
         df = pd.concat([self.split_dataset.x_features, self.split_dataset.y_features])
         scaled_df = StandardScaler().fit_transform(df)
 
-        print(scaled_df[:10])
+        print(f"==> ml-algo \n ==> {scaled_df[:10]}")
 
         self.__kmeans = KMeans(init="random", n_clusters=3, n_init=10, random_state=1)
         self.__kmeans.fit(scaled_df)
 
+        print("==> ml-algo [Extreme Gradient Boosting Implemented]")
+
     def predict(self, test_data: pd.DataFrame, algo: AlgoToPredict):
         match algo:
             case algo.random_forest:
-                return self.__rf.predict(test_data)
+                if self.__rf != None:
+                    print("==> ml-algo [Predicting for Random Forests]")
+                    return self.__rf.predict(test_data)
             case algo.xgboost:
-                return self.__xgb.predict(test_data)
+                if self.__xgb != None:
+                    print("==> ml-algo [Predicting for Extreme Gradient Boosting]")
+                    return self.__xgb.predict(test_data)
             case algo.ensemble:
-                return self.__ensemble_model.predict(test_data)
+                if self.__ensemble_model != None:
+                    print("==> ml-algo [Predicting for Ensemble Model]")
+                    return self.__ensemble_model.predict(test_data)
             case algo.k_means:
-                return self.__kmeans.predict(test_data)
+                if self.__kmeans != None:
+                    print("==> ml-algo [Predicting for KMeans]")
+                    return self.__kmeans.predict(test_data)
+            case _:
+                return
 
     def algo_voting_classifier(self):
-        self.__ensemble_model = VotingClassifier(
-            estimators=[
-                ('rf', self.__rf),
-                ('xgb', self.__xgb),
-                ('kmeans', self.__kmeans)
-            ], voting='hard'
-        )
+        if self.__rf or self.__xgb or self.__kmeans != None:
+            self.__ensemble_model = VotingClassifier(
+                estimators=[
+                    ('rf', self.__rf),
+                    ('xgb', self.__xgb),
+                    ('kmeans', self.__kmeans)
+                ], voting='hard'
+            )
 
-        self.__ensemble_model.fit(self.split_dataset.x_features, self.split_dataset.y_features)
+            self.__ensemble_model.fit(self.split_dataset.x_features, self.split_dataset.y_features)
+
+            print("==> ml-algo [Ensemble Model Implemented]")

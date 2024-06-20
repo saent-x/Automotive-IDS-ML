@@ -1,6 +1,7 @@
 datasets
 .vscode
 .idea
+.venv
 .git
 .jupyter
 .ipynb_checkpoints
