@@ -16,8 +16,8 @@ def read_dataset_and_split(filename: str) -> SplitDataset:
     y_target_df = df_copy.drop(columns=["timestamp", "arbitration_id", "data_field"])
 
     # correct column header datatypes
-    y_target_df["data_field"] = y_target_df["data_field"].astype(str)
-    y_target_df["arbitration_id"] = y_target_df["arbitration_id"].astype(str)
+    x_features_df["data_field"] = x_features_df["data_field"].astype(str)
+    x_features_df["arbitration_id"] = x_features_df["arbitration_id"].astype(str)
 
     return SplitDataset(x_features_df, y_target_df)
 
