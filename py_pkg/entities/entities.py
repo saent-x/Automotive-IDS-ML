@@ -17,10 +17,10 @@ class AlgoToPredict(str, Enum):
 
 
 class TestDataType(str, Enum):
-    kv_ka = "./datasets/clean-data/test_data/kv-ka/"
-    kv_ua = "./datasets/clean-data/test_data/kv-ua/"
-    uv_ka = "./datasets/clean-data/test_data/uv-ka/"
-    uv_ua = "./datasets/clean-data/test_data/uv-ua/"
+    kv_ka = "./datasets/clean-data/test-data/kv-ka/"
+    kv_ua = "./datasets/clean-data/test-data/kv-ua/"
+    uv_ka = "./datasets/clean-data/test-data/uv-ka/"
+    uv_ua = "./datasets/clean-data/test-data/uv-ua/"
 
 
 class AttackType(str, Enum):

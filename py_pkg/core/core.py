@@ -1,7 +1,10 @@
 import numpy
 import pandas as pd
 import matplotlib.pyplot as plt
-from py_pkg.entities.entities import SplitDataset, TestDataType, AttackType
+from sklearn import preprocessing
+from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score, roc_curve, auc, classification_report
+
+from py_pkg.entities.entities import AttackType, SplitDataset, TestDataType
 
 # import datasets
 dataset_dir = './datasets/clean-data/updated_dataset.csv'
@@ -12,7 +15,7 @@ def read_dataset_and_split(filename: str) -> SplitDataset:
     df = pd.read_csv(filename)
     df_copy = df
 
-    x_features_df = df_copy.drop(columns=["attack_0", "attack_1", "attack_2", "attack_3", "attack_4", "attack_5"])
+    x_features_df = df_copy.drop(columns=["attack"])
     y_target_df = df_copy.drop(columns=["timestamp", "arbitration_id", "data_field"])
 
     # correct column header datatypes
@@ -27,3 +30,22 @@ def get_test_dataset(test_type: TestDataType, attack_type: AttackType) -> pd.Dat
     df = pd.read_csv(test_type.value + attack_type.value)
 
     return df
+
+def generate_metrics_report(y_true, y_pred, pos_label):
+    accuracy = accuracy_score(y_true, y_pred)
+    cm = confusion_matrix(y_true, y_pred)
+    precision = precision_score(y_true, y_pred, average='weighted',  zero_division=1)
+    recall = recall_score(y_true, y_pred, average='weighted', zero_division=1)
+    f1 = f1_score(y_true, y_pred, average='weighted', zero_division=1)
+    fpr, tpr, thresholds = roc_curve(y_true, y_pred, pos_label=pos_label) # predicted label
+    roc_auc = auc(fpr, tpr)
+
+    return (classification_report(y_true, y_pred, zero_division=1), pd.DataFrame(
+        {
+            'Accuracy': [accuracy],
+            'Precision': [precision],
+            'Recall': [recall],
+            'F1-Score': [f1],
+            'ROC AUC': [roc_auc]
+        }
+    ), cm)
