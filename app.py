@@ -35,21 +35,34 @@ def main():
     true_values_pred_values_rf_uv_ka = tests.test_for(TestDataType.uv_ka, algo, AlgoToPredict.random_forest)
     test_metrics_rf_uv_ka = tests.generate_all_test_metrics(true_values_pred_values_rf_uv_ka)
 
+    # save results
+    tests.save_testing_results(test_metrics_rf_kv_ka, "Random Forests - KV-KA")
+    tests.save_testing_results(test_metrics_rf_uv_ka, "Random Forests - UV-KA")
+
+
     # Extreme Gradient Boosting
     true_values_pred_values_xg_kv_ka = tests.test_for(TestDataType.kv_ka, algo, AlgoToPredict.xgboost)
-    test_metrics_rf_kv_ka = tests.generate_all_test_metrics(true_values_pred_values_xg_kv_ka)
+    test_metrics_xg_kv_ka = tests.generate_all_test_metrics(true_values_pred_values_xg_kv_ka)
 
     true_values_pred_values_xg_uv_ka = tests.test_for(TestDataType.uv_ka, algo, AlgoToPredict.xgboost)
-    test_metrics_rf_uv_ka = tests.generate_all_test_metrics(true_values_pred_values_xg_uv_ka)
+    test_metrics_xg_uv_ka = tests.generate_all_test_metrics(true_values_pred_values_xg_uv_ka)
+
+    # save results
+    tests.save_testing_results(test_metrics_xg_kv_ka, "Extreme Gradient Boosting - KV-KA")
+    tests.save_testing_results(test_metrics_xg_uv_ka, "Extreme Gradient Boosting - UV-KA")
 
     # K-Means Clustering
     true_values_pred_values_kmeans_kv_ka = tests.test_for(TestDataType.kv_ka, algo, AlgoToPredict.xgboost)
-    test_metrics_rf_kv_ka = tests.generate_all_test_metrics(true_values_pred_values_kmeans_kv_ka)
+    test_metrics_kmeans_kv_ka = tests.generate_all_test_metrics(true_values_pred_values_kmeans_kv_ka)
 
     true_values_pred_values_kmeans_uv_ka = tests.test_for(TestDataType.uv_ka, algo, AlgoToPredict.xgboost)
-    test_metrics_rf_uv_ka = tests.generate_all_test_metrics(true_values_pred_values_kmeans_uv_ka)
+    test_metrics_kmeans_uv_ka = tests.generate_all_test_metrics(true_values_pred_values_kmeans_uv_ka)
 
-    # Test Results
+    # save results
+    tests.save_testing_results(test_metrics_kmeans_kv_ka, "K-Means - KV-KA")
+    tests.save_testing_results(test_metrics_kmeans_uv_ka, "K-Means - UV-KA")
+
+
 
     print("==> ml-algo [Test Results]")
 

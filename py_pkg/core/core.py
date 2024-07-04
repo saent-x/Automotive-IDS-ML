@@ -40,12 +40,16 @@ def generate_metrics_report(y_true, y_pred, pos_label):
     fpr, tpr, thresholds = roc_curve(y_true, y_pred, pos_label=pos_label) # predicted label
     roc_auc = auc(fpr, tpr)
 
-    return (classification_report(y_true, y_pred, zero_division=1), pd.DataFrame(
+    target_names = ['dos', 'force neutral', 'rpm', 'standstill']
+
+    return (classification_report(y_true, y_pred, zero_division=1, target_names=target_names), pd.DataFrame(
         {
             'Accuracy': [accuracy],
             'Precision': [precision],
             'Recall': [recall],
             'F1-Score': [f1],
-            'ROC AUC': [roc_auc]
+            'ROC AUC': [roc_auc],
+            'FPR': [fpr],
+            'TPR': [tpr]
         }
     ), cm)
