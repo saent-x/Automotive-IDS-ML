@@ -1,9 +1,12 @@
+from cgi import test
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+from sklearn.metrics import accuracy_score, recall_score
 from py_pkg.core.core import read_dataset_and_split, get_test_dataset
 from py_pkg.algos.algo import Algo
 from py_pkg.entities.entities import TestDataType, AttackType, AlgoToPredict
+from py_pkg.testing.testing import Testing
 
 # import datasets
 dataset_dir = './datasets/clean-data/updated_dataset.csv'
@@ -16,22 +19,41 @@ def main():
     algo = Algo(split_dataset)
     print("==> ml-algo [Initializing]")
 
-    # implement individual al  okayokay sure11gos
+    # implement individual algo
     algo.impl_random_forests()
     algo.impl_xgboost()
-    algo.impl_kmeans()
+    algo.impl_kmeans()       
 
-    # test individual algos
-    test_data_kv_ka = get_test_dataset(test_type=TestDataType.kv_ka, attack_type=AttackType.dos)
-    test_result_1 = algo.predict(test_data_kv_ka, AlgoToPredict.random_forest)
+    # test all algos and generate test metrics to be studied
 
-    print(f"==> ml-algo [Test Results]")
-    print(test_result_1)
-    # show test results and analysis on web server
+    tests = Testing()
 
-    # create ensemble model
+    # Random Forests
+    true_values_pred_values_rf_kv_ka = tests.test_for(TestDataType.kv_ka, algo, AlgoToPredict.random_forest)
+    test_metrics_rf_kv_ka = tests.generate_all_test_metrics(true_values_pred_values_rf_kv_ka)
 
-    # test ensemble model
+    true_values_pred_values_rf_uv_ka = tests.test_for(TestDataType.uv_ka, algo, AlgoToPredict.random_forest)
+    test_metrics_rf_uv_ka = tests.generate_all_test_metrics(true_values_pred_values_rf_uv_ka)
+
+    # Extreme Gradient Boosting
+    true_values_pred_values_xg_kv_ka = tests.test_for(TestDataType.kv_ka, algo, AlgoToPredict.xgboost)
+    test_metrics_rf_kv_ka = tests.generate_all_test_metrics(true_values_pred_values_xg_kv_ka)
+
+    true_values_pred_values_xg_uv_ka = tests.test_for(TestDataType.uv_ka, algo, AlgoToPredict.xgboost)
+    test_metrics_rf_uv_ka = tests.generate_all_test_metrics(true_values_pred_values_xg_uv_ka)
+
+    # K-Means Clustering
+    true_values_pred_values_kmeans_kv_ka = tests.test_for(TestDataType.kv_ka, algo, AlgoToPredict.xgboost)
+    test_metrics_rf_kv_ka = tests.generate_all_test_metrics(true_values_pred_values_kmeans_kv_ka)
+
+    true_values_pred_values_kmeans_uv_ka = tests.test_for(TestDataType.uv_ka, algo, AlgoToPredict.xgboost)
+    test_metrics_rf_uv_ka = tests.generate_all_test_metrics(true_values_pred_values_kmeans_uv_ka)
+
+    # Test Results
+
+    print("==> ml-algo [Test Results]")
+
+
 
 
 main()
