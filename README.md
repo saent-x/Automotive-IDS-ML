@@ -4,4 +4,14 @@ In the evolving landscape of automotive technology, securing in-vehicle networks
 
 ## How to run project
 * Projects entry point is `app.py`
+* Run `python app.py` in root folder to execute the program
 
+<br>
+<br>
+
+To learn more checkout the Documentation [here](https://github.com/saent-x/Automotive-IDS-ML/blob/staging/Docs.md)
+
+<br>
+<br>
+
+@Vangerwua Johnpaul (2024).
