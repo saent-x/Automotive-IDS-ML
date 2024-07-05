@@ -1,0 +1,54 @@
+Report for Extreme Gradient Boosting - UV-KA - DoS Results:
+              precision    recall  f1-score   support
+
+           0       1.00      0.97      0.98   1626423
+           1       0.00      1.00      0.00         0
+           2       0.76      0.96      0.85    163576
+           5       0.00      1.00      0.00         0
+
+    accuracy                           0.96   1789999
+   macro avg       0.44      0.98      0.46   1789999
+weighted avg       0.97      0.96      0.97   1789999
+
+
+Report for Extreme Gradient Boosting - UV-KA - Force Neutral Results:
+              precision    recall  f1-score   support
+
+           0       1.00      0.97      0.98   2095611
+           1       0.00      1.00      0.00         0
+           2       0.00      1.00      0.00         0
+           3       1.00      0.00      0.00        88
+           5       0.00      1.00      0.00         0
+
+    accuracy                           0.97   2095699
+   macro avg       0.40      0.79      0.20   2095699
+weighted avg       1.00      0.97      0.98   2095699
+
+
+Report for Extreme Gradient Boosting - UV-KA - RPM Results:
+              precision    recall  f1-score   support
+
+           0       1.00      0.97      0.98   1280858
+           1       0.00      1.00      0.00         0
+           2       0.00      1.00      0.00         0
+           4       1.00      0.00      0.00       152
+           5       0.00      1.00      0.00         0
+
+    accuracy                           0.97   1281010
+   macro avg       0.40      0.79      0.20   1281010
+weighted avg       1.00      0.97      0.98   1281010
+
+
+Report for Extreme Gradient Boosting - UV-KA - Standstill Results:
+              precision    recall  f1-score   support
+
+           0       1.00      0.97      0.98   1280858
+           1       0.00      1.00      0.00         0
+           2       0.00      1.00      0.00         0
+           5       0.00      0.00      1.00       351
+
+    accuracy                           0.97   1281209
+   macro avg       0.25      0.74      0.50   1281209
+weighted avg       1.00      0.97      0.98   1281209
+
+

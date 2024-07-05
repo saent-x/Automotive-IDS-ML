@@ -52,7 +52,6 @@ class Algo:
         # create scaled DataFrame where each variable has mean of 0 and standard dev of 1
         df = pd.concat([self.split_dataset.x_features, self.split_dataset.y_features], axis=1)
         # scaled_df = StandardScaler().fit_transform(df)
-        print(df)
         start_time = time.time()
 
         self.__kmeans = KMeans(init="random", n_init='auto', random_state=1)
@@ -61,15 +60,15 @@ class Algo:
         close_time = time.time()
         print(f"==> ml-algo [KMeans Implemented in {get_human_time(close_time, start_time)}]")
 
-    def predict(self, test_data: pd.DataFrame, algo: AlgoToPredict):
+    def predict(self, test_data: pd.DataFrame, algo: AlgoToPredict, attack: str):
         match algo:
             case algo.random_forest:
                 if self.__rf != None:
-                    print("==> ml-algo [Predicting for Random Forests]")
+                    print(f"==> ml-algo [Predicting for Random Forests - {attack}]")
                     return self.__rf.predict(test_data)
             case algo.xgboost:
                 if self.__xgb != None:
-                    print("==> ml-algo [Predicting for Extreme Gradient Boosting]")
+                    print(f"==> ml-algo [Predicting for Extreme Gradient Boosting - {attack}]")
                     return self.__xgb.predict(test_data)
             # case algo.ensemble:
             #     if self.__ensemble_model != None:
@@ -77,7 +76,7 @@ class Algo:
             #         return self.__ensemble_model.predict(test_data)
             case algo.k_means:
                 if self.__kmeans != None:
-                    print("==> ml-algo [Predicting for KMeans]")
+                    print(f"==> ml-algo [Predicting for KMeans - {attack}]")
                     return self.__kmeans.predict(test_data)
             case _:
                 return np.empty((0,0))

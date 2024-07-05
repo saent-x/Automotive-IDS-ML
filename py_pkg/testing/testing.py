@@ -29,19 +29,19 @@ class Testing:
         start_time = time.time()
 
         if algo_type == AlgoToPredict.k_means:
-            y_pred_dos = algo.predict(test_data_raw_dos, AlgoToPredict.k_means)
-            y_pred_fn = algo.predict(test_data_raw_fn, AlgoToPredict.k_means)
-            y_pred_rpm = algo.predict(test_data_raw_rpm, AlgoToPredict.k_means)
-            y_pred_ss = algo.predict(test_data_raw_ss, AlgoToPredict.k_means)
+            y_pred_dos = algo.predict(test_data_raw_dos, AlgoToPredict.k_means, 'DoS')
+            y_pred_fn = algo.predict(test_data_raw_fn, AlgoToPredict.k_means, 'Force Neutral')
+            y_pred_rpm = algo.predict(test_data_raw_rpm, AlgoToPredict.k_means, 'RPM')
+            y_pred_ss = algo.predict(test_data_raw_ss, AlgoToPredict.k_means, 'Standstill')
         else:
-            y_pred_dos = algo.predict(test_data_dos, algo_type)
-            y_pred_fn = algo.predict(test_data_fn, algo_type)
-            y_pred_rpm = algo.predict(test_data_rpm, algo_type)
-            y_pred_ss = algo.predict(test_data_ss, algo_type)
+            y_pred_dos = algo.predict(test_data_dos, algo_type, 'DoS')
+            y_pred_fn = algo.predict(test_data_fn, algo_type, 'Force Neutral')
+            y_pred_rpm = algo.predict(test_data_rpm, algo_type, 'RPM')
+            y_pred_ss = algo.predict(test_data_ss, algo_type, 'Standstill')
 
         close_time = time.time()
 
-        print(f"\n==> ml-algo [{algo_type.name} Predicted in {get_human_time(close_time, start_time)} for {test_type} test set \n")
+        print(f"\n==> ml-algo [{algo_type.name} Predicted in {get_human_time(close_time, start_time)} for {test_type.name} test set] \n")
 
         true_values = [y_true_dos, y_true_fn, y_true_rpm, y_true_ss]
         predicted_values = [y_pred_dos, y_pred_fn, y_pred_rpm, y_pred_ss]
@@ -51,11 +51,15 @@ class Testing:
     
     def generate_all_test_metrics(self, true_values_and_predicted_values) -> List[Tuple[str, Any, Any, Any]]:
         resulting_metrics = []
+        (true_values, predicted_values, pos_labels) = true_values_and_predicted_values
 
-        for y_true, y_pred, pos_label in true_values_and_predicted_values:
-            if y_true & y_pred & pos_label:
-                class_report, df, cm = generate_metrics_report(y_true, y_pred, pos_label)
-                resulting_metrics.append((class_report, df, cm, pos_label))
+        for i in range(len(true_values)):
+            y_true = true_values[i]
+            y_pred = predicted_values[i]
+            pos_label = pos_labels[i]
+
+            class_report, df, cm = generate_metrics_report(y_true, y_pred, pos_label)
+            resulting_metrics.append((class_report, df, cm, pos_label))
         
         return resulting_metrics
     
@@ -65,10 +69,22 @@ class Testing:
         with open(filename, 'w') as file:
             # Iterate through the list of resulting metrics and write each classification report to the file
             for idx, (class_report, df, cm, pos_label) in enumerate(resulting_metrics):
-                file.write(f"Report for {title}:\n")
+                file.write(f"Report for {title} - {self.__get_attack_name(pos_label)} Results:\n")
                 file.write(class_report)
                 file.write("\n\n")
 
         print(f"All test results has been written to {filename}")
+
+    def __get_attack_name(self, label) -> str:
+        if label == 2:
+            return "DoS"
+        elif label == 3:
+            return "Force Neutral"
+        elif label == 4:
+            return "RPM"
+        elif label == 5:
+            return "Standstill"
+        else:
+            return "---"
 
 
