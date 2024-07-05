@@ -1,0 +1,72 @@
+==> ml-algo [Initializing]
+==> ml-algo [Random Forests Implemented in 02:51]
+==> ml-algo [KMeans Implemented in 00:23]
+==> ml-algo [Predicting for Random Forests - DoS]
+==> ml-algo [Predicting for Random Forests - Force Neutral]
+==> ml-algo [Predicting for Random Forests - RPM]
+==> ml-algo [Predicting for Random Forests - Standstill]
+
+==> ml-algo [random_forest Predicted in 00:09 for kv_ka test set] 
+
+==> ml-algo [Predicting for Random Forests - DoS]
+==> ml-algo [Predicting for Random Forests - Force Neutral]
+==> ml-algo [Predicting for Random Forests - RPM]
+==> ml-algo [Predicting for Random Forests - Standstill]
+
+==> ml-algo [random_forest Predicted in 00:11 for uv_ka test set] 
+
+⚡ staging ~/Automotive-IDS-ML python app.py
+==> ml-algo [Initializing]
+==> ml-algo [Random Forests Implemented in 02:50]
+==> ml-algo [Gradient Boosting Implemented in 106:03]
+==> ml-algo [KMeans Implemented in 00:23]
+==> ml-algo [Predicting for Random Forests - DoS]
+==> ml-algo [Predicting for Random Forests - Force Neutral]
+==> ml-algo [Predicting for Random Forests - RPM]
+==> ml-algo [Predicting for Random Forests - Standstill]
+
+==> ml-algo [random_forest Predicted in 00:09 for kv_ka test set] 
+
+==> ml-algo [Predicting for Random Forests - DoS]
+==> ml-algo [Predicting for Random Forests - Force Neutral]
+==> ml-algo [Predicting for Random Forests - RPM]
+==> ml-algo [Predicting for Random Forests - Standstill]
+
+==> ml-algo [random_forest Predicted in 00:11 for uv_ka test set] 
+
+All test results has been written to random_forests__kvka_results.txt
+All test results has been written to random_forests__uvka_results.txt
+==> ml-algo [Predicting for Extreme Gradient Boosting - DoS]
+==> ml-algo [Predicting for Extreme Gradient Boosting - Force Neutral]
+==> ml-algo [Predicting for Extreme Gradient Boosting - RPM]
+==> ml-algo [Predicting for Extreme Gradient Boosting - Standstill]
+
+==> ml-algo [xgboost Predicted in 00:30 for kv_ka test set]
+
+==> ml-algo [Predicting for Extreme Gradient Boosting - DoS]
+==> ml-algo [Predicting for Extreme Gradient Boosting - Force Neutral]
+==> ml-algo [Predicting for Extreme Gradient Boosting - RPM]
+==> ml-algo [Predicting for Extreme Gradient Boosting - Standstill]
+
+==> ml-algo [xgboost Predicted in 00:32 for uv_ka test set]
+
+All test results has been written to extreme_gradient_boosting__kvka_results.txt
+All test results has been written to extreme_gradient_boosting__uvka_results.txt
+==> ml-algo [Predicting for KMeans - DoS]
+==> ml-algo [Predicting for KMeans - Force Neutral]
+==> ml-algo [Predicting for KMeans - RPM]
+==> ml-algo [Predicting for KMeans - Standstill]
+
+==> ml-algo [k_means Predicted in 00:00 for kv_ka test set]
+
+==> ml-algo [Predicting for KMeans - DoS]
+==> ml-algo [Predicting for KMeans - Force Neutral]
+==> ml-algo [Predicting for KMeans - RPM]
+==> ml-algo [Predicting for KMeans - Standstill]
+
+==> ml-algo [k_means Predicted in 00:00 for uv_ka test set]
+
+All test results has been written to kmeans__kvka_results.txt
+All test results has been written to kmeans__uvka_results.txt
+
+==> ml-algo [Model training and Testing Completed in 113:49]
