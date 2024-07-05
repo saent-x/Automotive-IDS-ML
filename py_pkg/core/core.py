@@ -53,3 +53,12 @@ def generate_metrics_report(y_true, y_pred, pos_label):
             'TPR': [tpr]
         }
     ), cm)
+
+
+def get_human_time(close_time: float, start_time: float) -> str:
+    total_time = close_time - start_time
+    minutes = int(total_time // 60)
+    seconds = int(total_time % 60)
+    
+    return f"{minutes:02}:{seconds:02}"
+
