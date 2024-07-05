@@ -1,20 +1,3 @@
-==> ml-algo [Initializing]
-==> ml-algo [Random Forests Implemented in 02:51]
-==> ml-algo [KMeans Implemented in 00:23]
-==> ml-algo [Predicting for Random Forests - DoS]
-==> ml-algo [Predicting for Random Forests - Force Neutral]
-==> ml-algo [Predicting for Random Forests - RPM]
-==> ml-algo [Predicting for Random Forests - Standstill]
-
-==> ml-algo [random_forest Predicted in 00:09 for kv_ka test set] 
-
-==> ml-algo [Predicting for Random Forests - DoS]
-==> ml-algo [Predicting for Random Forests - Force Neutral]
-==> ml-algo [Predicting for Random Forests - RPM]
-==> ml-algo [Predicting for Random Forests - Standstill]
-
-==> ml-algo [random_forest Predicted in 00:11 for uv_ka test set] 
-
 ⚡ staging ~/Automotive-IDS-ML python app.py
 ==> ml-algo [Initializing]
 ==> ml-algo [Random Forests Implemented in 02:50]
