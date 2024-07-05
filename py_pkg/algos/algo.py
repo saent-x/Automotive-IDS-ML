@@ -13,6 +13,7 @@ from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, r
 from sklearn.model_selection import RandomizedSearchCV, train_test_split
 from scipy.stats import randint
 
+from py_pkg.core.core import get_human_time
 from py_pkg.entities.entities import AlgoToPredict, SplitDataset
 
 
@@ -33,7 +34,7 @@ class Algo:
         self.__rf.fit(self.split_dataset.x_features, self.split_dataset.y_features.values.ravel())
 
         close_time = time.time()
-        print(f"==> ml-algo [Random Forests Implemented in {close_time - start_time}]")
+        print(f"==> ml-algo [Random Forests Implemented in {get_human_time(close_time, start_time)}]")
 
 
     def impl_xgboost(self):
@@ -45,7 +46,7 @@ class Algo:
         self.__xgb.fit(self.split_dataset.x_features, y_features)
 
         close_time = time.time()
-        print(f"==> ml-algo [Gradient Boosting Implemented in {close_time - start_time}]")
+        print(f"==> ml-algo [Gradient Boosting Implemented in {get_human_time(close_time, start_time)}]")
 
     def impl_kmeans(self):
         # create scaled DataFrame where each variable has mean of 0 and standard dev of 1
@@ -58,7 +59,7 @@ class Algo:
         self.__kmeans.fit(df)
 
         close_time = time.time()
-        print(f"==> ml-algo [KMeans Implemented in {close_time - start_time}]")
+        print(f"==> ml-algo [KMeans Implemented in {get_human_time(close_time, start_time)}]")
 
     def predict(self, test_data: pd.DataFrame, algo: AlgoToPredict):
         match algo:

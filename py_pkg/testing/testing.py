@@ -3,7 +3,7 @@ import time
 from turtle import pos
 from typing import Any, List, Tuple
 from py_pkg.algos.algo import Algo
-from py_pkg.core.core import generate_metrics_report, get_test_dataset
+from py_pkg.core.core import generate_metrics_report, get_human_time, get_test_dataset
 from py_pkg.entities.entities import AlgoToPredict, AttackType, TestDataType
 
 
@@ -28,14 +28,20 @@ class Testing:
 
         start_time = time.time()
 
-        y_pred_dos = algo.predict(test_data_dos, algo_type)
-        y_pred_fn = algo.predict(test_data_fn, algo_type)
-        y_pred_rpm = algo.predict(test_data_rpm, algo_type)
-        y_pred_ss = algo.predict(test_data_ss, algo_type)
+        if algo_type == AlgoToPredict.k_means:
+            y_pred_dos = algo.predict(test_data_raw_dos, AlgoToPredict.k_means)
+            y_pred_fn = algo.predict(test_data_raw_fn, AlgoToPredict.k_means)
+            y_pred_rpm = algo.predict(test_data_raw_rpm, AlgoToPredict.k_means)
+            y_pred_ss = algo.predict(test_data_raw_ss, AlgoToPredict.k_means)
+        else:
+            y_pred_dos = algo.predict(test_data_dos, algo_type)
+            y_pred_fn = algo.predict(test_data_fn, algo_type)
+            y_pred_rpm = algo.predict(test_data_rpm, algo_type)
+            y_pred_ss = algo.predict(test_data_ss, algo_type)
 
         close_time = time.time()
 
-        print(f"\n==> ml-algo [{algo_type.name} Predicted in {close_time - start_time} for {test_type} test set \n")
+        print(f"\n==> ml-algo [{algo_type.name} Predicted in {get_human_time(close_time, start_time)} for {test_type} test set \n")
 
         true_values = [y_true_dos, y_true_fn, y_true_rpm, y_true_ss]
         predicted_values = [y_pred_dos, y_pred_fn, y_pred_rpm, y_pred_ss]
@@ -54,7 +60,7 @@ class Testing:
         return resulting_metrics
     
     def save_testing_results(self, resulting_metrics: List[Tuple[str, Any, Any, Any]], title: str):
-        filename = 'test_results.txt'
+        filename = f"{title.replace(' ', '_').replace('-', '').lower()}_results.txt"
 
         with open(filename, 'w') as file:
             # Iterate through the list of resulting metrics and write each classification report to the file
