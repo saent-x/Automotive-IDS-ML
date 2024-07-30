@@ -1,4 +1,5 @@
 import time
+import pandas as pd
 from typing import Any, List, Tuple
 from py_pkg.algos.algo import Algo
 from py_pkg.core.core import generate_metrics_report, get_human_time, get_test_dataset
@@ -50,41 +51,44 @@ class Testing:
 
     def test_for_2(self, test_type: TestDataType, algo: Algo, algo_type: AlgoToPredict) -> Any:
 
-        test_data_raw_dos = get_test_dataset(test_type, attack_type=AttackType.dos)
-        test_data_raw_fn = get_test_dataset(test_type, attack_type=AttackType.force_neutral)
-        # test_data_raw_rpm = get_test_dataset(test_type, attack_type=AttackType.rpm)
-        # test_data_raw_ss = get_test_dataset(test_type, attack_type=AttackType.standstill)
+        dos_dir = ""
+        fn_dir = ""
+
+        if test_type == TestDataType.kv_ka:
+            dos_dir = "./datasets/clean-data-2/set-1/testing-data/kv-ka/dos/dos.csv"
+            fn_dir = "./datasets/clean-data-2/set-1/testing-data/kv-ka/force_neutral/force_neutral.csv"
+        elif test_type == TestDataType.uv_ka:
+            dos_dir = "./datasets/clean-data-2/set-1/testing-data/uv-ka/dos/dos.csv"
+            fn_dir = "./datasets/clean-data-2/set-1/testing-data/uv-ka/force_neutral/force_neutral.csv"
+        else:
+            return None
+        
+        test_data_raw_dos = pd.read_csv(dos_dir)
+        test_data_raw_fn = pd.read_csv(fn_dir)
 
         test_data_dos = test_data_raw_dos.drop(columns=["attack"])
         test_data_fn = test_data_raw_fn.drop(columns=["attack"])
-        # test_data_rpm = test_data_raw_rpm.drop(columns=["attack"])
-        # test_data_ss = test_data_raw_ss.drop(columns=["attack"])
 
-        y_true_dos = test_data_raw_dos["attack"]  # 2 signifies DoS attacks
-        y_true_fn = test_data_raw_fn["attack"]  # 3 signifies force_neutral attacks
-        # y_true_rpm = test_data_raw_rpm["attack"].replace(1,4) # 4 signifies rpm attacks
-        # y_true_ss = test_data_raw_ss["attack"].replace(1,5) # 5 signifies standstill attacks
+        y_true_dos = test_data_raw_dos["attack"]
+        y_true_fn = test_data_raw_fn["attack"]
 
         start_time = time.time()
 
         if algo_type == AlgoToPredict.k_means:
             y_pred_dos = algo.predict(test_data_raw_dos, AlgoToPredict.k_means, 'DoS')
             y_pred_fn = algo.predict(test_data_raw_fn, AlgoToPredict.k_means, 'Force Neutral')
-            # y_pred_rpm = algo.predict(test_data_raw_rpm, AlgoToPredict.k_means, 'RPM')
-            # y_pred_ss = algo.predict(test_data_raw_ss, AlgoToPredict.k_means, 'Standstill')
+
         else:
             y_pred_dos = algo.predict(test_data_dos, algo_type, 'DoS')
             y_pred_fn = algo.predict(test_data_fn, algo_type, 'Force Neutral')
-            # y_pred_rpm = algo.predict(test_data_rpm, algo_type, 'RPM')
-            # y_pred_ss = algo.predict(test_data_ss, algo_type, 'Standstill')
 
         close_time = time.time()
 
         print(
             f"\n==> ml-algo [{algo_type.name} Predicted in {get_human_time(close_time, start_time)} for {test_type.name} test set] \n")
 
-        true_values = [y_true_dos, y_true_fn]  # , y_true_rpm, y_true_ss
-        predicted_values = [y_pred_dos, y_pred_fn]  # , y_pred_rpm, y_pred_ss
+        true_values = [y_true_dos, y_true_fn]
+        predicted_values = [y_pred_dos, y_pred_fn]
 
         return true_values, predicted_values
 
@@ -119,7 +123,7 @@ class Testing:
         with open(filename, 'w') as file:
             # Iterate through the list of resulting metrics and write each classification report to the file
             for idx, (class_report, df, cm) in enumerate(resulting_metrics):
-                file.write(f"[{attack}] Report for {title} - Results:\n")
+                file.write(f"Report for {title} - {attack[idx]} Results:\n")
                 file.write(class_report)
                 file.write("\n\n")
 

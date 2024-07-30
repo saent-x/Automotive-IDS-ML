@@ -31,11 +31,11 @@ def get_test_dataset(test_type: TestDataType, attack_type: AttackType) -> pd.Dat
 
     return df
 
-def generate_metrics_report(y_true, y_pred, pos_label):
+def generate_metrics_report(y_true, y_pred): # , pos_label
     accuracy = accuracy_score(y_true, y_pred)
     cm = confusion_matrix(y_true, y_pred)
-    precision = precision_score(y_true, y_pred)
-    recall = recall_score(y_true, y_pred)
+    precision = precision_score(y_true, y_pred, zero_division=1)
+    recall = recall_score(y_true, y_pred, zero_division=1)
     f1 = f1_score(y_true, y_pred)
     fpr, tpr, thresholds = roc_curve(y_true, y_pred) # predicted label
     roc_auc = auc(fpr, tpr)

@@ -51,10 +51,11 @@ class Algo:
     def impl_kmeans(self):
         # create scaled DataFrame where each variable has mean of 0 and standard dev of 1
         df = pd.concat([self.split_dataset.x_features, self.split_dataset.y_features], axis=1)
+
         # scaled_df = StandardScaler().fit_transform(df)
         start_time = time.time()
 
-        self.__kmeans = KMeans(init="random", n_init='auto', random_state=1)
+        self.__kmeans = KMeans(n_clusters=2, init="random", n_init='auto', random_state=1)
         self.__kmeans.fit(df)
 
         close_time = time.time()
