@@ -1,17 +1,62 @@
-# Automotive In-vehicle IDS System Utilizing Machine Learning
+# Automotive In-Vehicle Intrusion Detection with Machine Learning
 
-In the evolving landscape of automotive technology, securing in-vehicle networks is crucial. The proposition involves a ***Machine Learning-based Intrusion Detection System*** (IDS) with a multi-tier hybrid architecture that integrates both ***signature-based detection*** (Supervised learning) and ***anomaly-based detection*** (Unsupervised learning). This approach combines the accuracy of ***signature-based detection*** for known threats with the adaptability of ***anomaly-based detection*** methods for new threats, offering a robust and comprehensive security solution for vehicular networks.
+Research project (2024). A hybrid intrusion detection system for in-vehicle CAN networks that combines **signature-based detection** (supervised learning, for known attacks) with **anomaly-based detection** (unsupervised learning, for attacks the model has never seen).
 
-## How to run project
-* Projects entry point is `app.py` in the root directory
-* Run `python app.py` in root folder to execute the program
+## Approach
 
-<br>
-<br>
+```
+labelled CAN traffic ──► clean + merge attack subsets ──► features
+                                                            │
+                         ┌──────────────────────────────────┴───────────────┐
+                         ▼                                                  ▼
+        Signature tier (supervised)                         Anomaly tier (unsupervised)
+        Random Forest · Gradient Boosting                             K-Means clustering
+                         └──────────────────┬───────────────────────────────┘
+                                            ▼
+                          per-attack classification reports + confusion matrices
+```
 
-To learn more checkout the Documentation [here](https://github.com/saent-x/Automotive-IDS-ML/blob/staging/Docs.md)
+| Model | Tier | Why it was chosen |
+| --- | --- | --- |
+| Random Forest | Signature | Accurate and robust, resists overfitting |
+| Gradient Boosting | Signature | Strong accuracy on large tabular datasets |
+| K-Means | Anomaly | Simple, scales well, flags traffic that doesn't fit learned clusters |
 
-<br>
-<br>
+Decision trees and SVMs were evaluated and dropped; the reasoning is in [Docs.md](Docs.md).
 
-@Vangerwua Johnpaul (2024).
+## Evaluation design
+
+Models are tested on four scenarios, so the results show how well detection generalises beyond the training vehicle and attack set:
+
+| Scenario | Attacks |
+| --- | --- |
+| Known vehicle, known attacks | DoS, force_neutral, rpm, standstill |
+| Known vehicle, unknown attacks | double, fuzzing, interval, speed, systematic, triple |
+| Unknown vehicle, known attacks | DoS, force_neutral, rpm, standstill |
+| Unknown vehicle, unknown attacks | double, fuzzing, interval, speed, systematic, triple |
+
+Datasets: [can-train-and-test](https://data.dtu.dk/articles/dataset/can-train-and-test/24805533/1) (Lampe & Meng, 2024), plus the [Car-Hacking dataset](https://ocslab.hksecurity.net/Datasets/CAN-intrusion-dataset) and a heavy-duty truck CAN dataset for comparison. Full pipeline and dataset notes: [Docs.md](Docs.md).
+
+## Layout
+
+| Path | What |
+| --- | --- |
+| `app.py` | Entry point: trains all models and runs every test scenario |
+| `py_pkg/algos` | Model training and prediction |
+| `py_pkg/testing` | Scenario runner and metrics reports |
+| `py_pkg/core` | Dataset loading, splitting and reporting helpers |
+| `go-pkg` | Experimental Go port of the training pipeline using mlpack |
+| `repl.ipynb` | Exploration notebook |
+
+## Run it
+
+```bash
+pip install pandas numpy scipy scikit-learn matplotlib
+# place the cleaned dataset at ./datasets/clean-data/updated_dataset.csv
+python app.py
+```
+
+## Related work
+
+- [nn-anomaly-detection](https://github.com/saent-x/nn-anomaly-detection): PyTorch anomaly detector exported to ONNX with live SocketCAN inference
+- [neural-network-module](https://github.com/saent-x/neural-network-module): neural network written from scratch in Go, applied to the same CAN data

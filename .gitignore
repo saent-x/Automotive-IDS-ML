@@ -6,3 +6,5 @@ datasets
 .jupyter
 .ipynb_checkpoints
 __pycache__
+algo.log
+*.log
