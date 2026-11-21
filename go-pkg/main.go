@@ -14,7 +14,7 @@ import (
 )
 
 func main() {
-	_, cancel := context.WithCancel(context.Background())c
+	_, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
 	// import dataset and clean the data
